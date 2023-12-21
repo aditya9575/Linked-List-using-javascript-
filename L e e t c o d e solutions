@@ -210,3 +210,124 @@ let set = new Set();
 //now we check if our set has the current element / head of the second linked list and if yes we return that node else we traverse ahead in the check process of the further node of the second linked list
 
 //else if we don't find any node of the second linked list in our set we return null as an answer
+
+==============================================================================================================================================
+206. Reverse Linked List
+Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+Example 1:
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+
+Constraints:
+The number of nodes in the list is the range [0, 5000].
+-5000 <= Node.val <= 5000
+
+
+Solution------> 
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+
+// Preserve the head for later use
+    let temp = head;
+
+    let prev = null;
+    let lastNode = null;
+
+// Traverse the list until the end
+    while (temp !== null) {
+
+// Store the first node into the lastNode
+        lastNode = temp;
+
+// Reversing the linklist 
+
+// Move to the next node
+        temp = temp.next; 
+// Reverse the link by pointing to the previous node
+        lastNode.next = prev; 
+
+// Move to the next nodes
+// Move the prev pointer to the current node for the next iteration      
+        prev = lastNode; 
+    }
+
+// Update the head to the last node, which is now the first node in the reversed list
+    head = lastNode;
+
+// Return the head of the reversed linked list
+    return head;
+
+};
+
+==============================================================================================================================================
+
+234. Palindrome Linked List
+Given the head of a singly linked list, return true if it is a 
+palindrome
+or false otherwise.
+
+ 
+Example 1:
+Input: head = [1,2,2,1]
+Output: true
+
+Constraints:
+The number of nodes in the list is in the range [1, 105].
+0 <= Node.val <= 9
+
+
+Solution------>
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+var isPalindrome = function(head) {
+//we make in an array and use .push() method to fill it with the head/linked list so that now we can easily traverse over the array from both the ends and check if the current value at both the pointers on the current iteration is equal and if true at the end we return that yes it is a palindrome linked list 
+    let arr = [];
+
+    let temp = head;
+
+    while (temp !== null) {
+        arr.push(temp.val);
+        temp = temp.next;
+    }
+
+//we are using two pointer approach of left & right and we are incrementing left and at the same time on the next iteration we are decrementing the right pointer
+    let left = 0;
+    let right = arr.length - 1;
+
+//we are using this condition to iterate over till middle from both the sides and check if the values from both the sides at the current iterations are not equal we return false else we return true 
+    while (left <= right) {
+        if (arr[left] !== arr[right]) {
+            return false;
+        }
+        left++;
+        right--;
+    }
+
+    return true;
+};
+
+==============================================================================================================================================
+
+
