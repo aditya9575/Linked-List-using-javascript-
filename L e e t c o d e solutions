@@ -326,4 +326,86 @@ var isPalindrome = function(head) {
 
 ==============================================================================================================================================
 
+61. Rotate List
+Given the head of a linked list, rotate the list to the right by k places.
 
+Example 1:
+Input: head = [1,2,3,4,5], k = 2
+Output: [4,5,1,2,3]
+
+Constraints:
+The number of nodes in the list is in the range [0, 500].
+-100 <= Node.val <= 100
+0 <= k <= 2 * 109
+
+Solution------>
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+var rotateRight = function(head, k) {
+
+//we handle the edge case that if our head is null or our k is given a 0 we will return head 
+    if (head===null || k === 0) {
+        return head;
+    }
+
+    // we initially Convert linked list to array so that we can operate with ease 
+    let arr1 = [];
+    let temp = head;
+
+//we have a while loop that checks when head is not equal to null we push the value of the current node and then after we keep iterating to next node till we reach the last node
+    while (temp !== null) {
+        arr1.push(temp.val);
+        temp = temp.next;
+    }
+
+//then we make another array of the same length as array1 for comparison and fill it with 0 
+    let arr2 = [];
+    for (let i = 0; i < arr1.length; i++) {
+        arr2.push(0);
+    }
+
+//now we perform the rotation of the array by given k places this is done using the formulae of achieving rotation ->arr2[(i+k)%arr1.length] =arr1[i]
+//arr1 is the array with all the elements of our linked list and the arr2 is the comparison array of the exact length of arr1 filled with zeros 
+//now we run a loop from 0 till array1's end element and then inside it we achieve the desired rotation by comparing 
+//suppose arr1[1,2,3,4,5] k=2 arr2[0,0,0,0,0]
+// //now we start rotating using arr2[(j+k)%arr1.length] = arr1[j];
+// formula        assingment                  final value in arr2
+//                                              index  |  value
+// (0+2)%5=2      arr2[2] = arr1[o]               0         4
+// (1+2)%5=3      arr2[3] = arr1[1]               1         5
+// (2+2)%5=4      arr2[4] = arr1[2]               2         1
+// (3+2)%5=0      arr2[0] = arr1[3]               3         2  
+// (4+2)%5=1      arr2[1] = arr1[4]               4         3
+// hence achieveing the rotated array by k=2 elements ->arr2=[4,5,1,2,3]
+
+    for (let j = 0; j < arr1.length; j++) {
+        arr2[(j + k) % arr1.length] = arr1[j];
+    }
+
+  
+//NOW in the above we have achieved our rotated array and now we simply have to convert this rotated array to our linklist and then we need to return it as the desired answer i.e -> Create a linked list from arr2
+//REMEMBER -> REMEMBER WE ARE MAKING THIS NEW LINK LIST IN THIS WAY BECAUSE THE SYNTAX OF CREATING A NEW LINK LIST IS new ClassName(); and as the creation of ListNode class is being done in the backend including the making of the ListNode class having a constructor in it and assigning head and value to it so we will simply work with the above given information and create a new list (dummy)
+//below we create our new link list and initialize its 1st node with the 0th element with arr[0] i.e the 1st element of our rotated array and then after we make the rest of the link list below starting from the next element of our array i.e 1st
+    let newHead = new ListNode(arr2[0]);
+    let current = newHead;
+//The reason why we are starting our loop from 1 is because we already have created the 1st node outside the loop i.e->      let newHead = new ListNode(arr2[0]); 
+//then when we traverse over the left over array and we keep pointing and incrementing the iterator to ultimately have our desired link list in the end  
+    for (let i = 1; i < arr2.length; i++) {
+        current.next = new ListNode(arr2[i]);
+        current = current.next;
+    }
+
+    return newHead;
+};
+
+==============================================================================================================================================
