@@ -239,35 +239,31 @@ Solution------>
  */
 var reverseList = function(head) {
 
-// Preserve the head for later use
-    let temp = head;
 
-    let prev = null;
-    let lastNode = null;
+//in this approach we convert our list to array and reverse the array and the ultimately return the list after conversion from array 
 
-// Traverse the list until the end
-    while (temp !== null) {
+let arr = []
 
-// Store the first node into the lastNode
-        lastNode = temp;
+while(head !== null){
+    arr.push(head.val);
+    head=head.next;
+}
 
-// Reversing the linklist 
+//we are handeling the test case where our head is empty so the array length will be zero meaning there is nothing to reverse so we return null
+if(arr.length === 0 ){return null}
 
-// Move to the next node
-        temp = temp.next; 
-// Reverse the link by pointing to the previous node
-        lastNode.next = prev; 
+arr.reverse();
 
-// Move to the next nodes
-// Move the prev pointer to the current node for the next iteration      
-        prev = lastNode; 
+ let newHead = new ListNode(arr[0]);
+    let current = newHead;
+//The reason why we are starting our loop from 1 is because we already have created the 1st node outside the loop i.e->      let newHead = new ListNode(arr2[0]); 
+//then when we traverse over the left over array and we keep pointing and incrementing the iterator to ultimately have our desired link list in the end  
+    for (let i = 1; i < arr.length; i++) {
+        current.next = new ListNode(arr[i]);
+        current = current.next;
     }
 
-// Update the head to the last node, which is now the first node in the reversed list
-    head = lastNode;
-
-// Return the head of the reversed linked list
-    return head;
+    return newHead;
 
 };
 
