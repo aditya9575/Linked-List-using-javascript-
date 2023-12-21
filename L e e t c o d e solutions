@@ -1,0 +1,212 @@
+203. Remove Linked List Elements
+Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.
+
+Example 1:
+Input: head = [1,2,6,3,4,5,6], val = 6
+Output: [1,2,3,4,5]
+
+Constraints:
+The number of nodes in the list is in the range [0, 104].
+1 <= Node.val <= 50
+0 <= val <= 50
+
+
+Solution------> 
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} val
+ * @return {ListNode}
+ */
+var removeElements = function(head, val) {
+
+// Handle the case where the first element(s) should be removed
+//The reason for having a separate condition to handle the removal of the first element is to ensure that the head pointer is correctly
+updated if the first element(s) of the linked list have the specified value. If the head itself needs to be removed, we update the head to the next node. After handling the special case of the head, we can proceed with iterating through the rest of the linked list.
+    while (head !== null && head.val === val) {
+        head = head.next;
+    }
+
+//we store head in temp so that we don't loose our entire linked list 
+    let temp = head;
+
+// Iterate through the list to remove elements with the specified value
+//we in while loop check that our head should'nt be null and also its next element should'nt be null
+    while (temp !== null && temp.next !== null) {
+
+//we check that if the value of temp.next because initially we have handled the case of popping the head so ultimately we start the checking from the second element that is why we use if our second element onwards is equal to value we make our pointer move to the next node (temp.next.val === val) else we simply move to the next node for checking the same value comparison          
+        if (temp.next.val === val) {
+            temp.next = temp.next.next;
+        } else {
+            temp = temp.next;
+        }
+    }
+
+//remember we only use temp to update link list some how i.e for deletion/updation etc but if we want to return the updated link list we will always return the head 
+    return head; 
+
+};
+
+==============================================================================================================================================
+
+237. Delete Node in a Linked List
+
+There is a singly-linked list head and we want to delete a node node in it.
+You are given the node to be deleted node. You will not be given access to the first node of head.All the values of the linked list are unique, and it is guaranteed that the given node node is not the last node in the linked list.
+Delete the given node. Note that by deleting the node, we do not mean removing it from memory. We mean:
+
+The value of the given node should not exist in the linked list.
+The number of nodes in the linked list should decrease by one.
+All the values before node should be in the same order.
+All the values after node should be in the same order.
+Custom testing:
+
+For the input, you should provide the entire linked list head and the node to be given node. node should not be the last node of the list and should be an actual node in the list.
+We will build the linked list and pass the node to your function.
+The output will be the entire list after calling your function.
+ 
+
+Example 1:
+Input: head = [4,5,1,9], node = 5
+Output: [4,1,9]
+Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.
+
+Constraints:
+The number of the nodes in the given list is in the range [2, 1000].
+-1000 <= Node.val <= 1000
+The value of each node in the list is unique.
+The node to be deleted is in the list and is not a tail node.
+
+
+
+Solution------> 
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} node
+ * @return {void} Do not return anything, modify node in-place instead.
+ */
+var deleteNode = function(node) {
+    
+//Check if the input node is null, if so return as there is nothing to delete.
+if(node === null){ return ; }
+
+else{
+//If the node is not null, update its value to be the value of its next node and its next reference to be the next reference of its next node.This effectively removes the next node and connects the current node to the node after the next node, thus deleting the current node.    
+    if(node.next !== null){
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
+
+}
+
+
+
+// the inner if block -> This condition checks whether the current node (node) has a next node (node.next). If node.next is not null, it means there is a node to be deleted.
+// If this condition is not met (i.e., node.next is null), the block is skipped, and nothing is done. This check ensures that the operation inside the block is only performed when there is a next node to delete.
+
+// If the condition is met (there is a next node), the following operations are executed:
+// node.val = node.next.val;: This line updates the value of the current node (node) to be the value of its next node (node.next). Essentially, it copies the value of the next node to the current node.
+// node.next = node.next.next;: This line updates the next reference of the current node to skip the next node and point directly to the node after the next node. This effectively removes the next node from the linked list.
+
+==============================================================================================================================================
+
+
+160. Intersection of Two Linked Lists
+
+Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.
+
+For example, the following two linked lists begin to intersect at node c1:
+
+The test cases are generated such that there are no cycles anywhere in the entire linked structure.
+Note that the linked lists must retain their original structure after the function returns.
+Custom Judge:
+
+The inputs to the judge are given as follows (your program is not given these inputs):
+
+intersectVal - The value of the node where the intersection occurs. This is 0 if there is no intersected node.
+listA - The first linked list.
+listB - The second linked list.
+skipA - The number of nodes to skip ahead in listA (starting from the head) to get to the intersected node.
+skipB - The number of nodes to skip ahead in listB (starting from the head) to get to the intersected node.
+The judge will then create the linked structure based on these inputs and pass the two heads, headA and headB to your program. If you correctly return the intersected node, then your solution will be accepted.
+
+ 
+
+Example 1:
+Input: intersectVal = 8, listA = [4,1,8,4,5], listB = [5,6,1,8,4,5], skipA = 2, skipB = 3
+Output: Intersected at '8'
+Explanation: The intersected node's value is 8 (note that this must not be 0 if the two lists intersect).
+From the head of A, it reads as [4,1,8,4,5]. From the head of B, it reads as [5,6,1,8,4,5]. There are 2 nodes before the intersected node in A; There are 3 nodes before the intersected node in B.
+- Note that the intersected node's value is not 1 because the nodes with value 1 in A and B (2nd node in A and 3rd node in B) are different node references. In other words, they point to two different locations in memory, while the nodes with value 8 in A and B (3rd node in A and 4th node in B) point to the same location in memory.
+
+Constraints:
+The number of nodes of listA is in the m.
+The number of nodes of listB is in the n.
+1 <= m, n <= 3 * 104
+1 <= Node.val <= 105
+0 <= skipA < m
+0 <= skipB < n
+intersectVal is 0 if listA and listB do not intersect.
+intersectVal == listA[skipA] == listB[skipB] if listA and listB intersect.
+
+
+Solution------> 
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} headA
+ * @param {ListNode} headB
+ * @return {ListNode}
+ */
+var getIntersectionNode = function(headA, headB) {
+    
+let set = new Set();
+
+    // Traverse the first linked list and add each node to the set
+    let currentA = headA;
+    while (currentA) {
+        set.add(currentA);
+        currentA = currentA.next;
+    }
+
+    // Traverse the second linked list
+    let currentB = headB;
+    while (currentB) {
+        // If the current node is already in the set, it's the intersection point
+        if (set.has(currentB)) {
+            return currentB;
+        }
+        else{
+        currentB = currentB.next;
+        }
+    }
+
+    // If there is no intersection
+    return null;
+
+};
+
+//solution approach we are using set to solve it the initial approach is that we make a new set that is storing the 1st linked list step by step using .add method to our set and then we are iterating forwards to store the next element of the list i.e-> set.add(currentA); currentA = currentA.next;
+
+//now we check if our set has the current element / head of the second linked list and if yes we return that node else we traverse ahead in the check process of the further node of the second linked list
+
+//else if we don't find any node of the second linked list in our set we return null as an answer
