@@ -601,10 +601,6 @@ arr.splice(idxToRemove, 1);
 // After this operation, the array 'arr' no longer contains the element
 // that corresponds to the nth node from the end of the original linked list.
 
-    // Check if the array is empty after removal
-    if (arr.length === 0) {
-        return null;
-    }
 
     // Creating a new linked list from the modified array
     let newHead = new ListNode(arr[0]);
