@@ -576,33 +576,49 @@ The number of nodes in the list is sz.
 Solution------>
 
 var removeNthFromEnd = function(head, n) {
+ if (head === null || (head.next === null && n === 1)) {
+        return null; // Special case: empty list or removing the only element
+    }
+
     let counter = 1;
     let arr = [];
 
-    while (head != null) {
-        arr.push(new ListNode(head.val));
+    // Store the linked list values in an array
+    while (head !== null) {
+        arr.push(head.val);
         head = head.next;
     }
 
-    for (let i = arr.length - 1; i >= 0; i--) {
-        if (counter === n) {
-            arr.splice(i, 1); // Corrected this line
-            break;
-        }
-        counter++;
+// Calculate the index of the element to be removed.
+// The index is determined by subtracting 'n' from the length of the array.
+// 'n' represents the position from the end of the array.
+let idxToRemove = arr.length - n;
+
+// Use the splice function to remove one element at the calculated index.
+// The first argument of splice is the starting index, and the second argument
+// is the number of elements to be removed.
+arr.splice(idxToRemove, 1);
+
+// After this operation, the array 'arr' no longer contains the element
+// that corresponds to the nth node from the end of the original linked list.
+
+    // Check if the array is empty after removal
+    if (arr.length === 0) {
+        return null;
     }
 
-    // Create a new linked list from the array
+    // Creating a new linked list from the modified array
     let newHead = new ListNode(arr[0]);
     let current = newHead;
 
-    for (let i = 0; i < arr.length; i++) {
-        current.next = arr[i];
+    for (let i = 1; i < arr.length; i++) {
+        current.next = new ListNode(arr[i]);
         current = current.next;
     }
 
-    return newHead.next; // Skip the dummy node
+    return newHead;
 };
+
 
 ==============================================================================================================================================
 
