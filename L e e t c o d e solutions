@@ -409,3 +409,157 @@ var rotateRight = function(head, k) {
 };
 
 ==============================================================================================================================================
+21. Merge Two Sorted Lists
+You are given the heads of two sorted linked lists list1 and list2.
+Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
+Return the head of the merged linked list.
+
+ Example 1:
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+
+Constraints:
+The number of nodes in both lists is in the range [0, 50].
+-100 <= Node.val <= 100
+Both list1 and list2 are sorted in non-decreasing order.
+
+Solution------>
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val === undefined ? 0 : val)
+ *     this.next = (next === undefined ? null : next)
+ * }
+ */
+
+/**
+ * @param {ListNode} list1
+ * @param {ListNode} list2
+ * @return {ListNode}
+ */
+var mergeTwoLists = function (list1, list2) {
+
+//we handle the edge case where we take in count that if list1 is null we return list 2 and vice versa for list2 we return list 1 when found empty
+    if (list1 === null) {
+        return list2;
+    }
+    if (list2 === null) {
+        return list1;
+    }
+
+//we then after create a new linked list and start by preserving this inside a new variable we created named current so that the link list is not lost in any case AND REMEMBER WE ARE MAKING THIS NEW LINK LIST IN THIS WAY BECAUSE THE SYNTAX OF CREATING A NEW LINK LIST IS new ClassName(); and as the creation of ListNode class is being done in the backend including the making of the ListNode class having a constructor in it and assigning head and value to it so we will simply work with the above given information and create a new list (dummy)   
+    let dummy = new ListNode();
+    let current = dummy;
+
+
+//NOW after having a new linked list we use a while loop to check if and when  list1 and list2 are not null we inside this while loop have a check condition that checks if the current value of list1 is less than the current value of list2 in such a case we simply point the current/dummy list that we newly created , pointer to this list1 pointer which is less than the list2 and we also move the list1's pointer to the next node and this process of comparison takes place continuously till we ultimately enctounter a list1 element that is greater than the list2 element in such a case we enter the else block and inside it we simply point the next pointer of our resultant link list (current/dummy) to this list2 node/ pointer and we increment the list2 pointer to the next node
+    while (list1 !== null && list2 !== null) {
+        if (list1.val < list2.val) {
+            current.next = list1;
+            list1 = list1.next;
+        } else {
+            current.next = list2;
+            list2 = list2.next;
+        }
+        current = current.next;
+    }
+
+    // If one of the lists is not empty, append it to the result
+//here then after having a comparison logic to have a sorted resultant link list from both the given link list1 and list2 we just need to handle another edge case that is if the length of the 2 given link list differ in such case whilst having our comparison and increments we are bound to end up in a situation in which we won't have something to compare against the another as one of the link list has been of lesser length than another so when we encounter such a thing i.e when list1 is not null we point the current.next = list1 else if list1 pointing to null we pointour current/dummy list's pointer to list2 
+//AND SO ON THE COMPARISON GOES ON TILL WE GET A SORTED AND COMBINED LINKED LIST STORED INSIDE OUR DUMMY LINK LIST AND THEN WE RETURN IT AS AN ANSWER   
+    if (list1 !== null) {
+        current.next = list1;
+    } else {
+        current.next = list2;
+    }
+
+    return dummy.next;
+};
+
+==============================================================================================================================================
+
+2. Add Two Numbers
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Example 1:
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.
+
+Constraints:
+The number of nodes in each linked list is in the range [1, 100].
+0 <= Node.val <= 9
+It is guaranteed that the list represents a number that does not have leading zeros.
+
+Solution------>
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function (l1, l2) {
+
+//we start by creating a new linked with the value of its 1st node as "0" list and preservinng its head
+    let dummyHead = new ListNode(0);
+    let current = dummyHead;
+
+//The carry variable is initialized to 0 and is used to keep track of any carry generated during the addition of corresponding digits from l1 and l2. In the context of adding two numbers represented by linked lists, the carry variable helps manage situations where the sum of two digits exceeds 9, resulting in a carry to the next higher place value.   
+    let carry = 0;
+
+// This loop continues as long as at least one of the conditions is true. The conditions are:
+    // l1: Checks if there are more nodes in the first linked list.
+    // l2: Checks if there are more nodes in the second linked list.
+    // carry: Checks if there is any remaining carry from the previous step.
+
+    while (l1 || l2 || carry) {
+        let x, y;
+
+//we use if else blocks to assign values to x and y i.e if l1 is not null l1's value is being assigned to x else if its null we assign the value of x as 0 and then we do the same for y and l2
+        if (l1 !== null) {
+            x = l1.val;
+        } else {
+            x = 0;
+        }
+
+        if (l2 !== null) {
+            y = l2.val;
+        } else {
+            y = 0;
+        }
+
+// now after we have our values stored inside our x and why for each iteration we now calculate the sum of x + y + carry
+        const sum = x + y + carry;
+// Update carry for the next calculation.        
+        carry = Math.floor(sum / 10);
+
+//When creating a new node in the result linked list, we initialize its value with sum % 10. This step is necessary because we are dealing with a scenario where the sum of two digits (from l1 and l2) and the carry from the previous step might be greater than 9. In such cases, we need to ensure that the value of the current node in the result linked list represents the single-digit remainder of the sum.
+        current.next = new ListNode(sum % 10);
+        current = current.next;
+
+//The pointers l1 and l2 are moved to their next nodes.
+        if (l1) {
+            l1 = l1.next;
+        }
+
+        if (l2) {
+            l2 = l2.next;
+        }
+    }
+
+//in the end we return our new linked list as the desired result
+    return dummyHead.next;
+};
+
+==============================================================================================================================================
+
+
+
