@@ -580,7 +580,6 @@ var removeNthFromEnd = function(head, n) {
         return null; // Special case: empty list or removing the only element
     }
 
-    let counter = 1;
     let arr = [];
 
     // Store the linked list values in an array
