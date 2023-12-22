@@ -617,6 +617,45 @@ arr.splice(idxToRemove, 1);
 
 ==============================================================================================================================================
 
+142. Linked List Cycle II
+Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to (0-indexed). It is -1 if there is no cycle. Note that pos is not passed as a parameter.
+Do not modify the linked list.
 
+ 
 
+Example 1:
+Input: head = [3,2,0,-4], pos = 1
+Output: tail connects to node index 1
+Explanation: There is a cycle in the linked list, where tail connects to the second node.
 
+Constraints:
+The number of the nodes in the list is in the range [0, 104].
+-105 <= Node.val <= 105
+pos is -1 or a valid index in the linked-list.
+
+Solution------>
+var detectCycle = function(head) {
+
+   let mySet = new Set();
+
+   
+   while(head != null){
+      
+      if(mySet.has(head))
+      {
+          return head;
+          }
+       mySet.add(head);
+       head = head.next;
+
+   }
+   return null;
+
+};
+
+//question is asking to return the node where cycle begins i.e if while traversing towards the end of our link list we encounter a previously encountered node value again so we return that value and its called a cycle and if not found we return null
+
+//so we create a new set an start storing the list elements onto it one by one whilst incrementing/iterating the pointer on our list and if on checking that our set .has() the current node element already present inside the set so we simply return that element/head else if not found we return null as a symbol of no cycle found 
+
+==============================================================================================================================================
